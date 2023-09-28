@@ -12,29 +12,23 @@ message_queue = queue.Queue()
 connected_clients = set()
 
 
-class AsyncServer:
+class AsyncClient:
     def __init__(self):
         self.loop = asyncio.new_event_loop()
 
-    async def websocket_server(self):
-        server = await websockets.serve(self.handler, "0.0.0.0", 7890)
-        await server.wait_closed()
-
-    async def handler(self, websocket, path):
-        connected_clients.add(websocket)
-        try:
-            while websocket.open:
-                if not message_queue.empty():
+    async def websocket_client(self):
+        url = "ws://161.35.102.255:7890"
+        async with websockets.connect(url) as ws:
+            while True:
+                try:
                     message = message_queue.get_nowait()
-                    await websocket.send(message)
-                else:
+                    await ws.send(message)
+                except queue.Empty:
                     await asyncio.sleep(0.1)
-        finally:
-            connected_clients.remove(websocket)
 
     def run(self):
         asyncio.set_event_loop(self.loop)
-        self.loop.run_until_complete(self.websocket_server())
+        self.loop.run_until_complete(self.websocket_client())
 
 
 class LoggingHandler(SimpleHTTPRequestHandler):
@@ -96,13 +90,13 @@ class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
     daemon_threads = True
 
 
-async_server = AsyncServer()
+async_client = AsyncClient()
 
 # Running the Websocket server in a separate thread
 
 import threading
 
-threading.Thread(target=async_server.run, daemon=True).start()
+threading.Thread(target=async_client.run, daemon=True).start()
 
 # HTTP Server Setup
 httpd = ThreadingHTTPServer(("", 8080), LoggingHandler)

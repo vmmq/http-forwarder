@@ -5,7 +5,7 @@ import json
 
 
 async def listen():
-    url = "ws://127.0.0.1:7890"
+    url = "ws://161.35.102.255:7890"
     async with websockets.connect(url) as ws:
         await ws.send("Hello Server!")
         while True:
