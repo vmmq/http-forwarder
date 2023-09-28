@@ -99,6 +99,7 @@ class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 async_server = AsyncServer()
 
 # Running the Websocket server in a separate thread
+
 import threading
 
 threading.Thread(target=async_server.run, daemon=True).start()
