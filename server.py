@@ -17,7 +17,7 @@ class AsyncClient:
         self.loop = asyncio.new_event_loop()
 
     async def websocket_client(self):
-        url = "ws://0.0.0.0:8080"
+        url = "wss://seal-app-rtaew.ondigitalocean.app"
         async with websockets.connect(url) as ws:
             while True:
                 try:

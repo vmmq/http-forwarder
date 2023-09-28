@@ -5,7 +5,7 @@ import json
 
 
 async def listen():
-    url = "ws://localhost:8080"
+    url = "wss://seal-app-rtaew.ondigitalocean.app"
     async with websockets.connect(url) as ws:
         await ws.send("Hello Server!")
         while True:
