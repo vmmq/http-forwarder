@@ -17,7 +17,7 @@ class AsyncServer:
         self.loop = asyncio.new_event_loop()
 
     async def websocket_server(self):
-        server = await websockets.serve(self.handler, "localhost", 7890)
+        server = await websockets.serve(self.handler, "0.0.0.0", 7890)
         await server.wait_closed()
 
     async def handler(self, websocket, path):
@@ -104,7 +104,7 @@ import threading
 threading.Thread(target=async_server.run, daemon=True).start()
 
 # HTTP Server Setup
-httpd = ThreadingHTTPServer(("", 80), LoggingHandler)
+httpd = ThreadingHTTPServer(("", 8080), LoggingHandler)
 try:
     httpd.serve_forever()
 except KeyboardInterrupt:
