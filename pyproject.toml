@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "http-forwarder"
+version = "0.1.0"
+description = ""
+authors = ["Victor Madureri <41347134+vmmq@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "http_forwarder"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.31.0"
+websockets = "^11.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
